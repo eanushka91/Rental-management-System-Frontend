@@ -1,0 +1,22 @@
+<div class="flex">
+    <div class="w-52 sticky top-0">      
+      <div class="h-screen">
+        <nav class="navbar w-52 bg-gradient-to-t from-[#000000] to-[#000000] text-white" style="height: 100%; overflow: hidden;">
+          <ul class="topic font-semibold text-3xl ml-2 mt-5">
+            <a style="font-family: 'Comic Sans MS', sans-serif;">Rental Management</a>
+          </ul>
+          <ul class="nav-list space-y-6 mt-11 ml-1">
+            <li class="nav-item text-l">
+              <button routerLink="/item" >Items</button>
+            </li>
+            <li class="nav-item text-l">
+              <button routerLink="rental">Rentals</button>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+    <div class="w-12/10">
+        <router-outlet></router-outlet>
+    </div>
+  </div>

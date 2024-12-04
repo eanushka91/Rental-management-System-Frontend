@@ -25,30 +25,193 @@
 
 
 
-<div class="flex flex-wrap justify-center">
-    <div *ngFor="let item of itemList; let i = index" class="w-[300px] bg-white rounded-lg overflow-hidden shadow-lg border-gray-300 mb-8 mx-4">
-        <div class="w-full max-w-sm mt-5 bg-white border border-gray-200 rounded-lg shadow dark:bg-white dark:border-gray-700">
-            <a href="#">
-                <img class="w-56 p-6 ml-10 rounded-t-lg" src="machine.png" alt="product image" />
-            </a>
-            <div class="px-5 pb-5 flex justify-between">
-                <a href="#">
-                    <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-black">{{item.itemname}}
-                    </h5>
-                </a>
-                <div class="flex">
-                    <a href="#" class="text-white bg-black hover:bg-gray-700 focus:outline-none font-medium rounded-lg text-sm px-5 py-1.5 text-center" (click)="showAddRentModal = true">Rent</a>
+<div class="mx-5 my-5 flex flex-wrap justify-between items-center ml-10 mr-10">
+    <div *ngFor="let rent of rentList; let i = index"
+        class="w-[300px]  bg-white rounded-lg overflow-hidden shadow-lg border-gray-300 mb-8 mr-20 ml-20">
+        <div class="p-2 bg-[#000000] text-white">
+            <h2 class="text-base font-bold text-center">Rental</h2>
+        </div>
+
+        <div class="mb-1 flex ml-2 mt-2">
+            <label class="block text-black font-semibold text-sm">Vehicle Number:</label>
+            <p class=" text-sm ml-5">{{rental.rentaldate}}</p>
+        </div>
+
+        <div class="mb-1 flex ml-2 mt-2">
+            <label class="block text-black font-semibold text-sm">License Number:</label>
+            <p class=" text-sm ml-5">{{rental.returndate}}</p>
+        </div>
+
+        <div class="mb-1 flex ml-2">
+            <label class="block text-black font-semibold text-sm">Violation Type:</label>
+            <p class=" text-sm ml-5">{{rental.duedate}}</p>
+        </div>
+
+        <div class="mb-1 flex ml-2">
+            <label class="block text-black font-semibold text-sm">Location:</label>
+            <p class=" text-sm ml-5">{{rental.totalcost}}</p>
+        </div>
+
+        <div class=" border-t">
+            <div class="flex justify-between">
+                <div class="ml-5">
+                    <input type="button" value="🚮" (click)="deleteRentById(rental.rentalid)" class="mr-2">
+                    <input type="button" value="📝" (click)="updateRent(rental); showUpdateModal = true" class="mr-2">
                 </div>
             </div>
+        </div>
+    </div>
+</div>
 
-            <div class="border-t">
+
+
+<div *ngIf="showAddModal" class="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
+    <div class="bg-white rounded-lg shadow-lg w-full max-w-md mx-auto">
+
+        <div class="border-b px-4 py-2 flex justify-between items-center">
+            <h1 class="text-lg font-semibold">Add Rent</h1>
+            <button type="button" class="text-gray-400 hover:text-gray-600" (click)="showAddModal = false">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+
+        <div class="p-4">
+            <div class="mb-2">
+                <label for="rentaldate" class="block text-sm font-medium text-gray-700">Rental Date</label>
+                <input type="date" id="name" [(ngModel)]="rental.rentaldate"
+                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
+            </div>
+
+            <div class="mb-2">
+                <label for="returndate" class="block text-sm font-medium text-gray-700">Return date</label>
+                <input type="date" id="rental" [(ngModel)]="rental.returndate"
+                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
+            </div>
+        
+            <div class="mb-2">
+                <label for="duedate" class="block text-sm font-medium text-gray-700">Due date</label>
+                <input type="date" id="fine" [(ngModel)]="rental.duedate"
+                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
+            </div>
+            <div class="mb-2">
+                <label for="totalcost" class="block text-sm font-medium text-gray-700">Total Cost</label>
+                <input type="number" id="availability" [(ngModel)]="rental.totalcost"
+                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
+            </div>
+            
+        </div>
+
+
+        <div class="border-t px-2 py-2 flex justify-end">
+            <button type="button" class="mr-2 px-4 py-2 bg-black text-white rounded hover:bg-gray-700"
+                (click)="showAddModal = false">Close</button>
+            <button type="button" class="px-4 py-2 bg-black text-white rounded hover:bg-gray-700"
+                (click)="addRent(); showAddModal = false; rental = { rentaldate: '', returndate: '', duedate: '', totalcost: '' }">Add
+                Item</button>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Update item -->
+
+<div *ngIf="showUpdateModal" class="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
+    <div class="bg-white rounded-lg shadow-lg w-full max-w-md mx-auto">
+
+        <div class="border-b px-4 py-2 flex justify-between items-center">
+            <h1 class="text-lg font-semibold">Update Item</h1>
+            <button type="button" class="text-gray-400 hover:text-gray-600" (click)="showUpdateModal = false">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+
+        <div class="p-4">
+            <div class="mb-2">
+                <label for="name" class="block text-sm font-medium text-gray-700">Rental Date</label>
+                <input type="text" id="name" [(ngModel)]="rentTemp.rentaldate"
+                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
+            </div>
+            <div class="mb-2">
+                <label for="rentalperday" class="block text-sm font-medium text-gray-700">Return Date</label>
+                <input type="text" id="rentalperday" [(ngModel)]="rentTemp.returndate"
+                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
+            </div>
+            <div class="mb-2">
+                <label for="fineperday" class="block text-sm font-medium text-gray-700">Due datey</label>
+                <input type="text" id="fineperday" [(ngModel)]="rentTemp.duedate"
+                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
+            </div>
+            <div class="mb-2">
+                <label for="availability" class="block text-sm font-medium text-gray-700">Total Cost</label>
+                <input type="text" id="availability" [(ngModel)]="rentTemp.totalcost"
+                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
+            </div>
+        </div>
+
+
+        <div class="border-t px-2 py-2 flex justify-end">
+            <button type="button" class="mr-2 px-4 py-2 bg-black text-white rounded hover:bg-gray-700"
+                (click)="showUpdateModal = false">Close</button>
+            <button type="button" class="px-4 py-2 bg-black text-white rounded hover:bg-gray-700"
+                (click)="saveRent(); showUpdateModal = false">Update Item</button>
+        </div>
+        
+    </div>
+</div>
+
+
+
+
+
+<!-- Search item -->
+
+<div *ngIf="showSearchModal" class="fixed inset-0 z-50 flex items-center justify-center bg-gray-950 bg-opacity-60">
+    <div>
+
+        <div *ngIf="searchResult"
+            class="w-[300px]  bg-white rounded-lg overflow-hidden shadow-lg border-gray-300 mb-8 mr-20 ml-20">
+
+            <div class="p-2 bg-[#0A1F44] text-white">
+                <h2 class="text-base font-bold text-center">Rentals</h2>
+            </div>
+
+            <div class="mb-1 flex ml-2 mt-4">
+                <label class="block text-black font-semibold text-sm">Rental Date:</label>
+                <p class=" text-sm ml-5">{{searchResult.rentaldate}}</p>
+            </div>
+
+            <div class="mb-1 flex ml-2 mt-4">
+                <label class="block text-black font-semibold text-sm">Return Date:</label>
+                <p class=" text-sm ml-5">{{searchResult.returndate}}</p>
+            </div>
+
+            <div class="mb-1 flex ml-2 mt-4">
+                <label class="block text-black font-semibold text-sm">Due date:</label>
+                <p class=" text-sm ml-5">{{searchResult.duedate}}</p>
+            </div>
+
+            <div class="flex ml-2 mt-4 mb-4">
+                <label class="block text-black font-semibold text-sm">Total Cost:</label>
+                <p class=" text-sm ml-5">{{searchResult.totalcost}}</p>
+            </div>
+
+
+            <div class=" border-t">
                 <div class="flex justify-between">
                     <div class="ml-5">
-                        <input type="button" value="🚮" (click)="deleteItemById(item.itemid)" class="mr-2">
-                        <input type="button" value="📝" (click)="updateItem(item); showUpdateModal = true" class="mr-2">
+                        <input type="button" value="🚮" (click)="deleteRentById(rental.rentalid)" class="mr-2">
+                        <input type="button" value="📝" (click)="updateRent(rental); showUpdateModal = true" class="mr-2">
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="px-4 py-3 flex justify-center">
+            <button type="button" class="mr-2 px-4 py-2 bg-black text-white rounded hover:bg-gray-700"
+                (click)="showSearchModal = false">Close</button>
         </div>
     </div>
 </div>

@@ -61,7 +61,7 @@
     </div>
 </div>
 
-<!-- Add Fine -->
+<!-- Add item -->
 
 <div *ngIf="showAddModal" class="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
     <div class="bg-white rounded-lg shadow-lg w-full max-w-md mx-auto">
@@ -114,7 +114,7 @@
 
 
 
-<!-- Update License -->
+<!-- Update item -->
 
 <div *ngIf="showUpdateModal" class="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
     <div class="bg-white rounded-lg shadow-lg w-full max-w-md mx-auto">
@@ -165,7 +165,7 @@
 
 
 
-<!-- Search License -->
+<!-- Search item -->
 
 <div *ngIf="showSearchModal" class="fixed inset-0 z-50 flex items-center justify-center bg-gray-950 bg-opacity-60">
     <div>
@@ -224,7 +224,7 @@
 
         <div class="border-b px-4 py-2 flex justify-between items-center">
             <h1 class="text-lg font-semibold">Add Rent</h1>
-            <button type="button" class="text-gray-400 hover:text-gray-600" (click)="showAddModal = false">
+            <button type="button" class="text-gray-400 hover:text-gray-600" (click)="showAddRentModal = false">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
@@ -242,7 +242,7 @@
                 <input type="date" id="rental" [(ngModel)]="rent.returndate"
                     class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" />
             </div>
-           
+        
             <div class="mb-2">
                 <label for="duedate" class="block text-sm font-medium text-gray-700">Due date</label>
                 <input type="date" id="fine" [(ngModel)]="rent.duedate"
@@ -261,7 +261,7 @@
             <button type="button" class="mr-2 px-4 py-2 bg-black text-white rounded hover:bg-gray-700"
                 (click)="showAddRentModal = false">Close</button>
             <button type="button" class="px-4 py-2 bg-black text-white rounded hover:bg-gray-700"
-                (click)="addRent(); showAddModal = false; rent = { rentaldate: '', returndate: '', duedate: '', totalcost: '' }">Add
+                (click)="addRent(); showAddRentModal = false; rent = { rentaldate: '', returndate: '', duedate: '', totalcost: '' }">Add
                 Item</button>
         </div>
     </div>
